@@ -87,9 +87,12 @@ int ft_time(char *str, char *str2, char *str3)
 	char *b;
 
 
-
-	a = malloc(sizeof(char) * 52);
-	b = malloc(sizeof(char) * 52);
+	if(str == NULL || str2 == NULL|| str3 == NULL)
+		return (-1);
+	if(!(a = malloc(sizeof(char) * 52)))
+		return (-1);
+	if(!(b = malloc(sizeof(char) * 52)))
+		return (-1);
 
 	test2 = ft_strjoin(str, "/");
 	
@@ -98,7 +101,13 @@ int ft_time(char *str, char *str2, char *str3)
 	test = ft_strjoin(test2, str2);
 
 	if(stat(test, &t) == -1)
+	{
+		free(a);
+		free(b);
+		free(test2);
+		free(test);
 		return (-1);
+	}
 	b = ft_strcpy(b, ctime(&t.st_ctime));
 	b[24] = 0;
 
@@ -112,7 +121,13 @@ int ft_time(char *str, char *str2, char *str3)
 	test = ft_strjoin(test2, str3);
 	//printf("%s\n", test);
 	if(stat(test, &t) == -1)
+	{
+		free(a);
+		free(b);
+		free(test2);
+		free(test);
 		return (-1);
+	}
 	a = ft_strcpy(a, ctime(&t.st_ctime));
 	a[24] = 0;
 
@@ -140,9 +155,17 @@ int ft_time(char *str, char *str2, char *str3)
 	}
 	//printf("%s\n", a + 4);
 	if(ft_mois(a + 4, b + 4) == 1)
+	{
+		free(a);
+		free(b);
 		return (1);
+	}
 	if(ft_mois(a + 4, b + 4) == -1)
-		return(0);
+	{
+		free(a);
+		free(b);
+		return (0);
+	}
 
 
 	if(ft_atoi(a + 8) > ft_atoi(b + 8))
@@ -199,6 +222,8 @@ int ft_time(char *str, char *str2, char *str3)
 		free(b);
 		return (0);
 	}
+	free(a);
+	free(b);
 	return(0);
 }
 

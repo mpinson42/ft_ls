@@ -20,17 +20,26 @@ void ft_liber(t_glob *g)
 int	main(int argc, char **argv)
 {
 	t_glob g;
+	int i;
 
+	i = 0;
 	ft_bzero(&g, sizeof(t_glob));
 	if(edit(&g, argc, argv) == -1)
 		return (0);
-	if(g.flag_gr == 1)
-		ft_R(g.path[0], &g);
-	if(g.flag_gr == 0 && g.flag_l == 0)
-		ft_ls(&g, g.path[0]);
-	if(g.flag_gr == 0 && g.flag_l == 1)
-		ft_ls_l(g.path[0], &g);
+	while (i < g.leng_path)
+	{
+		if(i != 0)
+			printf("\n");
+		if(g.flag_gr == 1)
+			ft_R(g.path[i], &g);
+		else if(g.flag_gr == 0 && g.flag_l == 0)
+			ft_ls(&g, g.path[i]);
+		else if(g.flag_gr == 0 && g.flag_l == 1)
+			ft_ls_l(g.path[i], &g);
+		i++;
+	}
 	//printf("oui\n");
 	ft_liber(&g);
+//	while(1);
 	return (0);
 }

@@ -48,9 +48,13 @@ int ft_R(char *str, t_glob *g)
 
 	j = 0;
 	i = 0;
+	ft_putstr("oui\n");
+	if(g->flag_l && str != NULL)
+		ft_affiche2(str);
 	printf("%s\n", str);
 	if(str == NULL || !(rep = opendir(str)))
 	{
+		//perror("");
 		return(0);
 	}
 	if(g->flag_l == 1)
@@ -63,16 +67,16 @@ int ft_R(char *str, t_glob *g)
     if(g->flag_r == 1)
    		ft_r(str, &fichierLu, i -1);
     i = 0;
+
 	while (fichierLu[i] != NULL)
 	{
 		if((fichierLu[i]->d_name[0] != '.' || g->flag_a == 1) && g->flag_l == 0)
     		printf("%s\t", fichierLu[i]->d_name);
-    	else if ((fichierLu[i]->d_name[0] != '.' || g->flag_a == 1) && g->flag_l == 1)
+    	else if ((fichierLu[i]->d_name[0] != '.' || g->flag_a == 1) && g->flag_l == 1 && str != NULL)
     	{
     		ft_affiche(str, fichierLu[i]->d_name, g);
     		printf("%s\n", fichierLu[i]->d_name);
     	}
-
     	i++;
 	}
 	printf("\n\n");
@@ -98,6 +102,6 @@ int ft_R(char *str, t_glob *g)
 		j++;
 	}
 	if (closedir(rep) == -1)
-        exit(-1);
+        return (-1);
 	return (0);
 }

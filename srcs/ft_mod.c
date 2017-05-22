@@ -1,13 +1,22 @@
 #include "ft_ls.h"
 
-void ft_mod(struct stat s)
+void ft_mod(struct stat s, int *mode)
 {
+    if (S_ISREG (s.st_mode))
+        printf ("-");
+    if (S_ISLNK (s.st_mode))
+        printf ("l");
 	if (S_ISDIR (s.st_mode))
+    {
+        mode[0] = 1;
         printf ("d");
- /*   else if (S_IFLNK (s.st_mode))
-        printf ("l");*/
-    else
-    	printf("-");
+    }
+    if (S_ISFIFO (s.st_mode))
+        printf ("p");
+    if (S_ISBLK (s.st_mode))
+        printf ("b");
+    if (S_ISCHR (s.st_mode))
+        printf ("c");
 
 
 
@@ -51,5 +60,8 @@ void ft_mod(struct stat s)
     if (s.st_mode & S_IXOTH)
         printf ("x\t");
     else
-    	printf("-\t");	
+    	printf("-\t");
+
+    if(S_TYPEISMQ (s))
+        printf("@");
 }

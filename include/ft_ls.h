@@ -34,9 +34,12 @@ typedef struct	s_glob
 	char		**path;
 	int			leng_path;
 	int 		bol;
+	char		a[54];
+	char		b[54];
 }				t_glob;
 
-void ft_mod(struct stat s);
+void ft_affiche2(char *str);
+void ft_mod(struct stat s, int *mode);
 int edit(t_glob *g, int argc, char **argv);
 void ft_ls(t_glob *g, char *str);
 int ft_test(char *str);

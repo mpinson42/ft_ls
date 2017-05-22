@@ -8,18 +8,67 @@ void ft_affiche(char *str, char *str2, t_glob *g)
 	char *str3; 
 	char *test;
 	char *test2;
+	int mode;
 
-	test = ft_strjoin(str, "/");
-	str = ft_strjoin(test, str2);
-	free(test);
-	if(stat(str, &s) == -1)
+	if(!(test = ft_strjoin(str, "/")))
 		return ;
+	if(!(str = ft_strjoin(test, str2)))
+	{
+		free(test);
+		return ;
+	}
+	free(test);
+	if(lstat(str, &s) == -1)
+	{
+		free(str);
+		return ;
+	}
 	free(str);
+
+	uid = getpwuid(s.st_uid);
+	if(!(gid = getgrgid(s.st_gid)))
+		return ;
+	/*if(!(ctime(&s.st_ctime)))
+
+		return ;*/
+
+	ft_mod(s, &mode);
+
+
+	if(mode == 1)
+		str3 = ctime(&s.st_mtime);
+	else if(mode == 2)
+		str3 = ctime(&s.st_mtime);
+	else
+		str3 = ctime(&s.st_mtime);
+	str3[strlen(str3) - 9] = 0;
+	printf("%d\t", s.st_nlink);
+	printf("%s\t", uid->pw_name);
+	printf("%s\t", gid->gr_name);
+	printf("%lld\t", s.st_size);
+	printf("%s ", str3);
+//	ft_putstr("oui2\n");
+//	ft_putstr("oui3\n");
+	//printf("%s\t", ctime(&s.st_ctime));*/
+}
+
+void ft_affiche2(char *str)
+{
+	struct stat s;
+	struct passwd *uid;
+	struct group *gid;
+	char *str3; 
+	char *test;
+	char *test2;
+	int mode;
+
+	if(lstat(str, &s) == -1)
+		return ;
 	uid = getpwuid(s.st_uid);
 	gid = getgrgid(s.st_gid);
 	/*if(!(ctime(&s.st_ctime)))
 		return ;*/
-	ft_mod(s);
+	ft_mod(s, &mode);
 
 
 
@@ -83,11 +132,14 @@ void ft_ls_l(char *str, t_glob *g)
 	struct dirent *c[3];
 
 	i = 0;
-	printf("%s\n", str);
 	if(str == NULL || !(rep = opendir(str)))
 	{
+		if(g->flag_l && str != NULL)
+			ft_affiche2(str);
+		printf("%s\n", str);
 		return;
 	}
+	//printf("%s\n", str);
 	printf("total : %d\n", ft_test2(str, g));
 	while ((fichierLu[i] = readdir(rep)) != NULL)
     	i++;
