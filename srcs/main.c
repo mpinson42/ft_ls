@@ -19,8 +19,8 @@ void ft_liber(t_glob *g)
 
 int	main(int argc, char **argv)
 {
-	t_glob g;
 	DIR *rep = NULL;
+	t_glob g;
 	int i;
 
 	i = 0;
@@ -31,18 +31,21 @@ int	main(int argc, char **argv)
 	{
 		if(i != 0)
 			printf("\n");
-		if(g.flag_gr == 1)
+		if ((opendir(g.path[i])) == NULL && ft_strcmp(strerror(errno), "Not a directory") != 0)
 		{
-			//printf("%s\n", g.path[i]);
-			ft_R(g.path[i], &g);
+    		i++;
+    		perror("");
+    		continue;
 		}
+		if(g.flag_gr == 1)
+			ft_R(g.path[i], &g);
 		else if(g.flag_gr == 0 && g.flag_l == 0)
 			ft_ls(&g, g.path[i]);
 		else if(g.flag_gr == 0 && g.flag_l == 1)
 			ft_ls_l(g.path[i], &g);
 		i++;
 	}
-	//printf("iy,t\n");
+	//printf("oui\n");
 	ft_liber(&g);
 //	while(1);
 	return (0);

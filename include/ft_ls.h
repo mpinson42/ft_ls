@@ -23,6 +23,8 @@
 # include <errno.h>
 # include "libft.h"
 #include <stdio.h>
+//#define major(dev) ((int)(((unsigned int) (dev) >> 8) & 0xff))
+//#define minor(dev) ((int)((dev) & 0xff)) 
 
 #define SIX_MONTH_SEGOND 15811200
 
@@ -43,6 +45,8 @@ typedef struct	s_glob
 	int			max_group;
 	int min_name;
 	int max_size;
+	int max_dev;
+	int max_dev2;
 
 }				t_glob;
 

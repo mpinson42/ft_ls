@@ -21,7 +21,7 @@ void ft_ls(t_glob *g, char *str)
 	while (fichierLu[i] != NULL)
 	{
 		if(fichierLu[i]->d_name[0] != '.' || g->flag_a == 1)
-    		printf("%s\t", fichierLu[i]->d_name);
+    		printf("%s\n", fichierLu[i]->d_name);
     	i++;
 	}
 	if (closedir(rep) == -1)

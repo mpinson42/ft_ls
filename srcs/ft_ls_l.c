@@ -1,5 +1,20 @@
 #include "ft_ls.h"
 
+int ft_max_li(int nbr)
+{
+	int i;
+
+	i = 0;
+	if(nbr == 0)
+		return (1);
+	while(nbr > 0)
+	{
+		nbr = nbr / 10;
+		i++;
+	}
+	return(i);
+}
+
 int ft_max_l(char *str, char *str2)
 {
 	struct stat s;
@@ -97,6 +112,88 @@ int ft_max_name(char *str, char *str2)
 	return(ft_strlen(uid->pw_name));
 }
 
+int ft_max_dev(char *str, char *str2)
+{
+	struct stat s;
+	int i;
+	struct passwd *uid;
+	char *test;
+
+	if(!(test = ft_strjoin(str, "/")))
+		return (-1);
+	if(!(str = ft_strjoin(test, str2)))
+	{
+		free(test);
+		return (-1);
+	}
+	free(test);
+	if(lstat(str, &s) == -1)
+	{
+		free(str);
+		return (-1);
+	}
+	free(str);
+	i = ft_max_li(major(s.st_rdev)) +2;
+
+
+	return(i);
+}
+
+int ft_max_dev4(char *str, char *str2)
+{
+	struct stat s;
+	int i;
+	struct passwd *uid;
+	char *test;
+
+	if(!(test = ft_strjoin(str, "/")))
+		return (-1);
+	if(!(str = ft_strjoin(test, str2)))
+	{
+		free(test);
+		return (-1);
+	}
+	free(test);
+	if(lstat(str, &s) == -1)
+	{
+		free(str);
+		return (-1);
+	}
+	free(str);
+	i = ft_max_li(minor(s.st_rdev));
+
+
+	return(i);
+}
+
+int ft_max_dev2(struct stat s)
+{
+	int i;
+	struct passwd *uid;
+	char *test;
+
+
+	i = ft_max_li(major(s.st_rdev)) + 2;
+
+
+
+	return(i);
+}
+
+int ft_max_dev3(struct stat s)
+{
+	int i;
+	struct passwd *uid;
+	char *test;
+
+
+	i = ft_max_li(minor(s.st_rdev));
+
+
+
+	return(i);
+}
+
 int ft_max_group(char *str, char *str2)
 {
 	struct stat s;
@@ -125,21 +222,6 @@ int ft_max_group(char *str, char *str2)
 		return (0);
 
 	return(ft_strlen(gid->gr_name));
-}
-
-int ft_max_li(int nbr)
-{
-	int i;
-
-	i = 0;
-	if(nbr == 0)
-		return (1);
-	while(nbr > 0)
-	{
-		nbr = nbr / 10;
-		i++;
-	}
-	return(i);
 }
 
 int ft_count_month(char *str)
@@ -200,6 +282,7 @@ void ft_affiche(char *str, char *str2, t_glob *g)
 	int time1;
 	int yolo = 0;
 
+	test2 = str;
 	if(!(test = ft_strjoin(str, "/")))
 		return ;
 	if(!(str = ft_strjoin(test, str2)))
@@ -225,7 +308,8 @@ void ft_affiche(char *str, char *str2, t_glob *g)
 
 	ft_mod(s, &mode);
 
-
+	//printf("--->%d\n", major(s.st_rdev));
+	//printf("-->%d\n", s.st_rdev);
 	if(mode == 1)
 	{
 	//	time = time(s.st_mtime);
@@ -268,13 +352,64 @@ void ft_affiche(char *str, char *str2, t_glob *g)
 		yolo++;
 	}
 	printf("%s ", gid->gr_name);
-	yolo = 0;
-	while(ft_absolut(g->max_size - ft_max_li(s.st_size)) - yolo + 1 > 0)
+	//printf("-->%s|,", test2);
+
+
+
+
+
+
+	if (ft_strcmp(test2, "/dev") != 0)
 	{
-		printf(" ");
-		yolo++;
+		yolo = 0;
+		while(ft_absolut(g->max_size - ft_max_li(s.st_size)) - yolo + 1 > 0)
+		{
+			printf(" ");
+			yolo++;
+		}
+
+			printf("%lld", s.st_size);
 	}
-	printf("%lld", s.st_size);
+	else
+	{
+		yolo = 0;
+		//printf("-->%d\n", g->max_dev);
+		while(strlen(gid->gr_name) < g->max_group - yolo)
+		{
+			printf(" ");
+			yolo++;
+		}
+		yolo = 0;
+		//printf("-->%d\n", g->max_dev);
+		while(g->max_dev > ft_max_dev2(s) + yolo)
+		{
+			printf(" ");
+			yolo++;
+		}
+		printf("%d, ", major(s.st_rdev));
+		//printf("%d, %d", major(s.st_rdev), minor(s.st_rdev));
+
+
+		//printf("->%d -- %d\n", ft_max_dev3(s), minor(s.st_rdev));
+		yolo = 0;
+		while(g->max_dev2 > ft_max_dev3(s) + yolo)
+		{
+			printf(" ");
+			yolo++;
+		}
+		printf("%d", minor(s.st_rdev));
+
+
+	}
+
+
+
+
+
+
+
+
+
 	if(time1 == 0)
 		printf("%s ", str3);
 	else
@@ -402,6 +537,10 @@ void ft_ls_l(char *str, t_glob *g)
 			g->min_name = ft_max_name(str, fichierLu[i]->d_name);
 		if(ft_max_group(str, fichierLu[i]->d_name) > g->max_group)
 			g->max_group = ft_max_group(str, fichierLu[i]->d_name);
+		if(ft_max_dev(str, fichierLu[i]->d_name) > g->max_dev)
+			g->max_dev = ft_max_dev(str, fichierLu[i]->d_name);
+		if(ft_max_dev4(str, fichierLu[i]->d_name) > g->max_dev2)
+			g->max_dev2 = ft_max_dev4(str, fichierLu[i]->d_name);
     	i++;
 	}
    	ft_trie(str, &fichierLu);

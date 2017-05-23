@@ -54,7 +54,8 @@ int ft_R(char *str, t_glob *g)
 	printf("%s\n", str);
 	if(str == NULL || !(rep = opendir(str)))
 	{
-		//perror("");
+		perror("");
+		printf("\n\n");
 		return(0);
 	}
 	if(g->flag_l == 1 && ft_strcmp(str, "/dev") != 0)
@@ -85,7 +86,7 @@ int ft_R(char *str, t_glob *g)
 	while (fichierLu[i] != NULL)
 	{
 		if((fichierLu[i]->d_name[0] != '.' || g->flag_a == 1) && g->flag_l == 0)
-    		printf("%s\t", fichierLu[i]->d_name);
+    		printf("%s\n", fichierLu[i]->d_name);
     	else if ((fichierLu[i]->d_name[0] != '.' || g->flag_a == 1) && g->flag_l == 1 && str != NULL)
     	{
     		ft_affiche(str, fichierLu[i]->d_name, g);
