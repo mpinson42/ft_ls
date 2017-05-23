@@ -14,6 +14,30 @@ int ft_max_li(int nbr)
 	}
 	return(i);
 }
+int is_open(char *str, char *str2)
+{
+	struct stat s;
+	int i;
+	char *test;
+
+	if(!(test = ft_strjoin(str, "/")))
+		return (-1);
+	if(!(str = ft_strjoin(test, str2)))
+	{
+		free(test);
+		return (-1);
+	}
+	free(test);
+	//printf("%s", str);
+	if(lstat(str, &s) == -1)
+	{
+
+		free(str);
+		return (-1);
+	}
+	free(str);
+	return(1);
+}
 
 int ft_max_l(char *str, char *str2)
 {
@@ -553,8 +577,12 @@ void ft_ls_l(char *str, t_glob *g)
 	{
 		if(fichierLu[i]->d_name[0] != '.' || g->flag_a == 1)
 		{
-			ft_affiche(str, fichierLu[i]->d_name, g);
-    		printf("%s\n", fichierLu[i]->d_name);
+			if(ft_isprint(fichierLu[i]->d_name[0]) && is_open(str, fichierLu[i]->d_name) != -1)
+			{
+				ft_affiche(str, fichierLu[i]->d_name, g);
+    			printf("%s\n", fichierLu[i]->d_name);
+    		}
+    		//printf("\n");
 		}
     	i++;
 	}
