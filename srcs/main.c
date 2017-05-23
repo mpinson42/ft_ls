@@ -31,22 +31,29 @@ int	main(int argc, char **argv)
 	{
 		if(i != 0)
 			printf("\n");
-		if ((opendir(g.path[i])) == NULL && ft_strcmp(strerror(errno), "Not a directory") != 0)
+		if ((rep = opendir(g.path[i])) == NULL)
 		{
-    		i++;
-    		perror("");
-    		continue;
+			if(ft_strcmp(strerror(errno), "Not a directory") != 0)
+			{
+    			i++;
+    			perror("");
+    			continue;
+    		}
 		}
+		else
+			closedir(rep);
 		if(g.flag_gr == 1)
 			ft_R(g.path[i], &g);
 		else if(g.flag_gr == 0 && g.flag_l == 0)
+		{
 			ft_ls(&g, g.path[i]);
+		}
 		else if(g.flag_gr == 0 && g.flag_l == 1)
 			ft_ls_l(g.path[i], &g);
 		i++;
 	}
 	//printf("oui\n");
 	ft_liber(&g);
-//	while(1);
+	while(1);
 	return (0);
 }

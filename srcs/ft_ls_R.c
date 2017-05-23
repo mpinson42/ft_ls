@@ -3,15 +3,17 @@
 int ft_test(char *str)
 {
 	int i;
+	struct dirent* fichierLu[200000];
 	DIR *rep = NULL;
 
 	i = 0;
+
 	if(str == NULL || !(rep = opendir(str)))
 		return(0);
-	while (readdir(rep) != NULL)
+	while ((fichierLu[i] = readdir(rep)) != NULL)
     	i++;
     if (closedir(rep) == -1)
-        exit(-1);
+        return(0);
     return(i);
 }
 

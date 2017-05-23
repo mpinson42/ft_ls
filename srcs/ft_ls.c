@@ -3,7 +3,7 @@
 void ft_ls(t_glob *g, char *str)
 {
 	DIR *rep = NULL;
-	struct dirent* fichierLu[ft_test(str) + 1];
+	struct dirent* fichierLu[200000];
 	int i;
 
 	i = 0;

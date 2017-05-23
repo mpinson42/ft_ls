@@ -50,6 +50,8 @@ typedef struct	s_glob
 
 }				t_glob;
 
+int ft_max_dev(char *str, char *str2);
+int ft_max_dev4(char *str, char *str2);
 int ft_max_group(char *str, char *str2);
 int ft_max_name(char *str, char *str2);
 int ft_max_size(char *str, char *str2);
