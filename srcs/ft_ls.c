@@ -20,10 +20,11 @@ void ft_ls(t_glob *g, char *str)
     i = 0;
 	while (fichierLu[i] != NULL)
 	{
-		if(fichierLu[i]->d_name[0] != '.' || g->flag_a == 1)
+		if((fichierLu[i]->d_name[0] != '.' || g->flag_a == 1) &&  ft_isprint(fichierLu[i]->d_name[0]) && is_open(str, fichierLu[i]->d_name) != -1)
     		printf("%s\n", fichierLu[i]->d_name);
     	i++;
 	}
 	if (closedir(rep) == -1)
         exit(-1);
 }
+

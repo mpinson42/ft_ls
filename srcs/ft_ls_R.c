@@ -76,6 +76,10 @@ int ft_R(char *str, t_glob *g)
 			g->min_name = ft_max_name(str, fichierLu[i]->d_name);
 		if(ft_max_group(str, fichierLu[i]->d_name) > g->max_group)
 			g->max_group = ft_max_group(str, fichierLu[i]->d_name);
+		if(ft_max_dev(str, fichierLu[i]->d_name) > g->max_dev)
+			g->max_dev = ft_max_dev(str, fichierLu[i]->d_name);
+		if(ft_max_dev4(str, fichierLu[i]->d_name) > g->max_dev2)
+			g->max_dev2 = ft_max_dev4(str, fichierLu[i]->d_name);
     	i++;
 	}
     ft_trie(str, &fichierLu);
@@ -89,7 +93,7 @@ int ft_R(char *str, t_glob *g)
 	{
 		if((fichierLu[i]->d_name[0] != '.' || g->flag_a == 1) && g->flag_l == 0)
     		printf("%s\n", fichierLu[i]->d_name);
-    	else if ((fichierLu[i]->d_name[0] != '.' || g->flag_a == 1) && g->flag_l == 1 && str != NULL)
+    	else if ((fichierLu[i]->d_name[0] != '.' || g->flag_a == 1) && g->flag_l == 1 && str != NULL && ft_isprint(fichierLu[i]->d_name[0]) && is_open(str, fichierLu[i]->d_name) != -1)
     	{
     		ft_affiche(str, fichierLu[i]->d_name, g);
     		printf("%s\n", fichierLu[i]->d_name);
