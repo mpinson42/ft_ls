@@ -58,10 +58,9 @@ void ft_mod(struct stat s, int *mode)
     else
     	printf("-");
     if (s.st_mode & S_IXOTH)
-        printf ("x\t");
+        printf ("x");
     else
-    	printf("-\t");
+    	printf("-");
 
-    if(S_TYPEISMQ (s))
-        printf("@");
+
 }

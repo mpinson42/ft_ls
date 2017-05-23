@@ -25,52 +25,52 @@ int ft_mois(char *str1, char *str2)
 		return(0);
 	if((ft_strncmp(str1, "jan", 3)))
 		a = 1;
-	if((ft_strncmp(str1, "jan", 3)))
+	if((ft_strncmp(str1, "Feb", 3)))
 		a = 2;
-	if((ft_strncmp(str1, "jan", 3)))
+	if((ft_strncmp(str1, "Mar", 3)))
 		a = 3;
-	if((ft_strncmp(str1, "jan", 3)))
+	if((ft_strncmp(str1, "Apr", 3)))
 		a = 4;
-	if((ft_strncmp(str1, "jan", 3)))
+	if((ft_strncmp(str1, "May", 3)))
 		a = 5;
-	if((ft_strncmp(str1, "jan", 3)))
+	if((ft_strncmp(str1, "Jun", 3)))
 		a = 6;
-	if((ft_strncmp(str1, "jan", 3)))
+	if((ft_strncmp(str1, "Jul", 3)))
 		a = 7;
-	if((ft_strncmp(str1, "jan", 3)))
+	if((ft_strncmp(str1, "Aug", 3)))
 		a = 8;
-	if((ft_strncmp(str1, "jan", 3)))
+	if((ft_strncmp(str1, "Sep", 3)))
 		a = 9;
-	if((ft_strncmp(str1, "jan", 3)))
+	if((ft_strncmp(str1, "Oct", 3)))
 		a = 10;
-	if((ft_strncmp(str1, "jan", 3)))
+	if((ft_strncmp(str1, "Nov", 3)))
 		a = 11;
-	if((ft_strncmp(str1, "jan", 3)))
+	if((ft_strncmp(str1, "Dec", 3)))
 		a = 12;
 
 	if((ft_strncmp(str2, "jan", 3)))
 		b = 1;
-	if((ft_strncmp(str2, "jan", 3)))
+	if((ft_strncmp(str2, "Feb", 3)))
 		b = 2;
-	if((ft_strncmp(str2, "jan", 3)))
+	if((ft_strncmp(str2, "Mar", 3)))
 		b = 3;
-	if((ft_strncmp(str2, "jan", 3)))
+	if((ft_strncmp(str2, "Apr", 3)))
 		b = 4;
-	if((ft_strncmp(str2, "jan", 3)))
+	if((ft_strncmp(str2, "May", 3)))
 		b = 5;
-	if((ft_strncmp(str2, "jan", 3)))
+	if((ft_strncmp(str2, "Jun", 3)))
 		b = 6;
-	if((ft_strncmp(str2, "jan", 3)))
+	if((ft_strncmp(str2, "Jul", 3)))
 		b = 7;
-	if((ft_strncmp(str2, "jan", 3)))
+	if((ft_strncmp(str2, "Aug", 3)))
 		b = 8;
-	if((ft_strncmp(str2, "jan", 3)))
+	if((ft_strncmp(str2, "Sep", 3)))
 		b = 9;
-	if((ft_strncmp(str2, "jan", 3)))
+	if((ft_strncmp(str2, "Oct", 3)))
 		b = 10;
-	if((ft_strncmp(str2, "jan", 3)))
+	if((ft_strncmp(str2, "Nov", 3)))
 		b = 11;
-	if((ft_strncmp(str2, "jan", 3)))
+	if((ft_strncmp(str2, "Dec", 3)))
 		b = 12;
 	if(a > b)
 		return(1);
@@ -221,6 +221,12 @@ int ft_time(char *str, char *str2, char *str3)
 		free(a);
 		free(b);
 		return (0);
+	}
+	if(ft_strcmp(str2 ,str3) > 0)
+	{
+		free(a);
+		free(b);
+		return(1);
 	}
 	free(a);
 	free(b);

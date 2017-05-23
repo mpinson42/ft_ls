@@ -24,6 +24,8 @@
 # include "libft.h"
 #include <stdio.h>
 
+#define SIX_MONTH_SEGOND 15811200
+
 typedef struct	s_glob
 {
 	int			flag_l;
@@ -36,8 +38,18 @@ typedef struct	s_glob
 	int 		bol;
 	char		a[54];
 	char		b[54];
+	int			max_lien;
+	int			max_name;
+	int			max_group;
+	int min_name;
+	int max_size;
+
 }				t_glob;
 
+int ft_max_group(char *str, char *str2);
+int ft_max_name(char *str, char *str2);
+int ft_max_size(char *str, char *str2);
+int ft_max_l(char *str, char *str2);
 void ft_affiche2(char *str);
 void ft_mod(struct stat s, int *mode);
 int edit(t_glob *g, int argc, char **argv);
