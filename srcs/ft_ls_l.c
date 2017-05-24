@@ -392,6 +392,13 @@ void ft_affiche(char *str, char *str2, t_glob *g)
 	if (ft_strcmp(test2, "/dev") != 0)
 	{
 		yolo = 0;
+		//printf("-->%d\n", g->max_dev);
+		while(strlen(gid->gr_name) < g->max_group - yolo)
+		{
+			printf(" ");
+			yolo++;
+		}
+		yolo = 0;
 		while(ft_absolut(g->max_size - ft_max_li(s.st_size)) - yolo + 1 > 0)
 		{
 			printf(" ");
