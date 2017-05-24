@@ -37,6 +37,11 @@ typedef struct	s_glob
 	int			flag_a;
 	int			flag_r;
 	int			flag_t;
+	int			flag_u;
+	int			flag_f;
+	int			flag_g;
+	int			flag_d;
+	
 	char		**path;
 	int			leng_path;
 	int 		bol;
@@ -72,7 +77,7 @@ int ft_test2(char *str, t_glob *g);
 void *ft_trie(char *str, struct dirent *(*fichierLu)[ft_test(str) + 1]);
 void *ft_r(char *str, struct dirent *(*fichierLu)[ft_test(str) + 1], int max);
 void	ft_swap(struct dirent** a, struct dirent** b);
-int ft_time(char *str, char *str2, char *str3);
-void *ft_t(char *str, struct dirent *(*fichierLu)[ft_test(str) + 1]);
+int ft_time(char *str, char *str2, char *str3, t_glob *g);
+void *ft_t(char *str, struct dirent *(*fichierLu)[ft_test(str) + 1], t_glob *g);
 
 #endif

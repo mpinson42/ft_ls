@@ -553,9 +553,9 @@ void ft_ls_l(char *str, t_glob *g)
 		return;
 	}
 	//printf("%s\n", str);
-	if(ft_strcmp(str, "/dev") != 0)
+	if(ft_strcmp(str, "/dev") != 0 && g->flag_d == 0)
 		printf("total : %d\n", ft_test2(str, g));
-	if(ft_strcmp(str, "/dev") == 0)
+	if(ft_strcmp(str, "/dev") == 0 && g->flag_d == 0)
 		printf("total : 0\n");
 	while ((fichierLu[i] = readdir(rep)) != NULL)
 	{
@@ -575,13 +575,19 @@ void ft_ls_l(char *str, t_glob *g)
 			g->max_dev2 = ft_max_dev4(str, fichierLu[i]->d_name);
     	i++;
 	}
-   	ft_trie(str, &fichierLu);
-   	if(g->flag_t == 1)
-   		ft_t(str, &fichierLu);
+	if(g->flag_f == 0)
+   	 ft_trie(str, &fichierLu);
+   	if(g->flag_t == 1 || g->flag_g == 1)
+   		ft_t(str, &fichierLu, g);
    	if(g->flag_r == 1)
    		ft_r(str, &fichierLu, i -1);
     i = 0;
-	while (fichierLu[i] != NULL)
+    if(g->flag_d == 1)
+    {
+    	ft_affiche("./", fichierLu[i]->d_name, g);
+    	printf("%s\n", fichierLu[i]->d_name);
+    }
+	while (fichierLu[i] != NULL && g->flag_d == 0)
 	{
 		if(fichierLu[i]->d_name[0] != '.' || g->flag_a == 1)
 		{

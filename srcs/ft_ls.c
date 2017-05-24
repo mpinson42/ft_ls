@@ -52,13 +52,14 @@ void ft_ls(t_glob *g, char *str)
 	while ((fichierLu[i] = readdir(rep)) != NULL)
     	i++;
     //ft_t(str, fichierLu[0]->d_name, fichierLu[1]->d_name);
-    ft_trie(str, &fichierLu);
-    if(g->flag_t == 1)
-   		ft_t(str, &fichierLu);
+    if(g->flag_f == 0)
+    	ft_trie(str, &fichierLu);
+    if(g->flag_t == 1 || g->flag_g == 1)
+   		ft_t(str, &fichierLu, g);
     if(g->flag_r == 1)
   		ft_r(str, &fichierLu, i -1);
     i = 0;
-	while (fichierLu[i] != NULL)
+	while (fichierLu[i] != NULL && g->flag_d == 0)
 	{
 		if((fichierLu[i]->d_name[0] != '.' || g->flag_a == 1) &&  ft_isprint(fichierLu[i]->d_name[0]) && is_open(str, fichierLu[i]->d_name) != -1)
 		{

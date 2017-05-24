@@ -15,14 +15,28 @@ int edit(t_glob *g, int argc, char **argv)
 		{
 			if (argv[i][x] == 'R')
 				g->flag_gr = 1;
-			if (argv[i][x] == 'r')
+			else if (argv[i][x] == 'r')
 				g->flag_r = 1;
-			if (argv[i][x] == 'l')
+			else if (argv[i][x] == 'l')
 				g->flag_l = 1;
-			if (argv[i][x] == 'a')
+			else if (argv[i][x] == 'a')
 				g->flag_a = 1;
-			if (argv[i][x] == 't')
+			else if (argv[i][x] == 't')
 				g->flag_t = 1;
+
+			else if (argv[i][x] == 'u')
+				g->flag_u = 1;
+			else if (argv[i][x] == 'f')
+				g->flag_f = 1;
+			else if (argv[i][x] == 'g')
+				g->flag_g = 1;
+			else if (argv[i][x] == 'd')
+				g->flag_d = 1;
+			else
+			{
+				printf("usage: ./ft_ls [-adfglrRu] [file ...]\n");
+				exit(0);
+			}
 			x++;
 		}
 		i++;

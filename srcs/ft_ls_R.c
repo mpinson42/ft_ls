@@ -53,6 +53,8 @@ int ft_R(char *str, t_glob *g)
 	//ft_putstr("oui\n");
 //	if(g->flag_l && str != NULL)
 //		ft_affiche2(str);
+	if(g->flag_d == 1)
+    	ft_affiche("./", str,g);
 	printf("%s\n", str);
 	if(str == NULL || !(rep = opendir(str)))
 	{
@@ -60,9 +62,9 @@ int ft_R(char *str, t_glob *g)
 		printf("\n\n");
 		return(0);
 	}
-	if(g->flag_l == 1 && ft_strcmp(str, "/dev") != 0)
+	if(g->flag_l == 1 && ft_strcmp(str, "/dev") != 0 && g->flag_d == 0)
 		printf("total : %d\n", ft_test2(str, g));
-	if(g->flag_l == 1 && ft_strcmp(str, "/dev") == 0)
+	if(g->flag_l == 1 && ft_strcmp(str, "/dev") == 0 && g->flag_d == 0)
 		printf("total : 0\n");
 	while ((fichierLu[i] = readdir(rep)) != NULL)
 	{
@@ -82,14 +84,14 @@ int ft_R(char *str, t_glob *g)
 			g->max_dev2 = ft_max_dev4(str, fichierLu[i]->d_name);
     	i++;
 	}
-    ft_trie(str, &fichierLu);
-    if(g->flag_t == 1)
-   		ft_t(str, &fichierLu);
+	if(g->flag_f == 0)
+     ft_trie(str, &fichierLu);
+    if(g->flag_t == 1 || g->flag_g == 1)
+   		ft_t(str, &fichierLu, g);
     if(g->flag_r == 1)
    		ft_r(str, &fichierLu, i -1);
     i = 0;
-
-	while (fichierLu[i] != NULL)
+	while (fichierLu[i] != NULL && g->flag_d == 0)
 	{
 		if((fichierLu[i]->d_name[0] != '.' || g->flag_a == 1) && g->flag_l == 0)
 		{
@@ -107,7 +109,7 @@ int ft_R(char *str, t_glob *g)
     	i++;
 	}
 	
-	while(fichierLu[j] != NULL && j < i && j < 50000)
+	while(fichierLu[j] != NULL && j < i && j < 50000 && g->flag_d == 0)
 	{
 		if(fichierLu[j] != NULL && (fichierLu[j]->d_type == 4  || fichierLu[j]->d_type == 10) && fichierLu[j]->d_type != 8 && ft_strcmp(fichierLu[j]->d_name, ".") != 0 && ft_strcmp(fichierLu[j]->d_name, "..") != 0 && (fichierLu[j]->d_name[0] != '.' || g->flag_a == 1))
 		{
