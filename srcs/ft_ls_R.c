@@ -58,8 +58,11 @@ int ft_R(char *str, t_glob *g)
 	printf("%s\n", str);
 	if(str == NULL || !(rep = opendir(str)))
 	{
-		perror("");
-		printf("\n\n");
+		if(ft_strcmp(strerror(errno), "Not a directory") != 0)
+		{
+			perror("");
+			printf("\n\n");
+		}
 		return(0);
 	}
 	if(g->flag_l == 1 && ft_strcmp(str, "/dev") != 0 && g->flag_d == 0)

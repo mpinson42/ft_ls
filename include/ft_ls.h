@@ -41,7 +41,7 @@ typedef struct	s_glob
 	int			flag_f;
 	int			flag_g;
 	int			flag_d;
-	
+
 	char		**path;
 	int			leng_path;
 	int 		bol;

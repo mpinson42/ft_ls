@@ -32,9 +32,11 @@ int edit(t_glob *g, int argc, char **argv)
 				g->flag_g = 1;
 			else if (argv[i][x] == 'd')
 				g->flag_d = 1;
+			else if (argv[i][x] == 't')
+				g->flag_t = 1;
 			else
 			{
-				printf("usage: ./ft_ls [-adfglrRu] [file ...]\n");
+				printf("usage: ./ft_ls [-adfglrRtu] [file ...]\n");
 				exit(0);
 			}
 			x++;
