@@ -7,7 +7,7 @@ void *ft_r(char *str, struct dirent *(*fichierLu)[ft_test(str) + 1], int max)
 
 	i = 0;
 	y = max;
-	while(i < max / 2)
+	while(i < max / 2 + 0.5)
 	{
 		ft_swap(&fichierLu[0][i], &fichierLu[0][y]);
 		i++;
