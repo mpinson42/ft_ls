@@ -19,10 +19,12 @@
 #include <sys/stat.h> 
 #include <unistd.h>
 # include <sys/types.h>
+#include <sys/acl.h>
 # include <dirent.h>
 # include <errno.h>
 # include "libft.h"
 #include <stdio.h>
+#include <sys/xattr.h>
 //#define major(dev) ((int)(((unsigned int) (dev) >> 8) & 0xff))
 //#define minor(dev) ((int)((dev) & 0xff)) 
 
@@ -50,6 +52,7 @@ typedef struct	s_glob
 
 }				t_glob;
 
+void ft_color(char *str, char* str2);
 int is_open(char *str, char *str2);
 int ft_max_dev(char *str, char *str2);
 int ft_max_dev4(char *str, char *str2);

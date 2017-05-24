@@ -285,8 +285,7 @@ int ft_6month(char *str, int anner, struct stat s)
 
 	time1 = time(&s.st_mtime);
 
-	time2 = ft_absolut(time1 - (ft_atoi(str + 14) + ft_atoi(str + 11) * 60 + ft_atoi(str + 8) * 60 * 60 + ft_atoi(str + 5) * 24 * 60 * 60 + ft_count_month(str) * 30.5 * 24 * 60 * 60 + (anner - 1970) * 12 * 30.5 * 24 * 60 * 60)); // segonde en (anner - 1990) + (mois) en segonde + (jour) segonde + (heur) segonde + (minute) segonde 
-	
+	time2 = ft_absolut(time1 - (ft_atoi(str + 14) + ft_atoi(str + 11) * 60 + ft_atoi(str + 8) * 60 * 60 + ft_atoi(str + 5) * 24 * 60 * 60 + ft_count_month(str) * 30.5 * 24 * 60 * 60 + (anner - 1970) * 12 * 30.5 * 24 * 60 * 60)); 
 	if(time2 > time1)
 		return (1);
 //	printf("-->%d  > %d", time2, 15811200);
@@ -304,6 +303,7 @@ void ft_affiche(char *str, char *str2, t_glob *g)
 	char *test2;
 	int mode;
 	int time1;
+	acl_t a;
 	int yolo = 0;
 
 	test2 = str;
@@ -331,7 +331,13 @@ void ft_affiche(char *str, char *str2, t_glob *g)
 		return ;*/
 
 	ft_mod(s, &mode);
-
+	if(listxattr(str, NULL, 0, XATTR_NOFOLLOW) > 0)
+		printf("@");
+	else if ((a = acl_get_file(str, ACL_TYPE_EXTENDED)))
+		printf("+");
+	else
+		printf(" ");
+	acl_free(a);
 	//printf("--->%d\n", major(s.st_rdev));
 	//printf("-->%d\n", s.st_rdev);
 	if(mode == 1)
@@ -541,7 +547,9 @@ void ft_ls_l(char *str, t_glob *g)
 	{
 		if(g->flag_l && str != NULL)
 			ft_affiche2(str);
+		ft_color(str, fichierLu[i]->d_name);
 		printf("%s\n", str);
+		write(1, "\e[0;m", 6);
 		return;
 	}
 	//printf("%s\n", str);
@@ -580,7 +588,9 @@ void ft_ls_l(char *str, t_glob *g)
 			if(ft_isprint(fichierLu[i]->d_name[0]) && is_open(str, fichierLu[i]->d_name) != -1)
 			{
 				ft_affiche(str, fichierLu[i]->d_name, g);
+				ft_color(str, fichierLu[i]->d_name);
     			printf("%s\n", fichierLu[i]->d_name);
+    			write(1, "\e[0;m", 6);
     		}
     		//printf("\n");
 		}

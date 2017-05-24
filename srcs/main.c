@@ -43,7 +43,10 @@ int	main(int argc, char **argv)
 		else
 			closedir(rep);
 		if(g.flag_gr == 1)
+		{
+			
 			ft_R(g.path[i], &g);
+		}
 		else if(g.flag_gr == 0 && g.flag_l == 0)
 		{
 			ft_ls(&g, g.path[i]);
@@ -54,6 +57,6 @@ int	main(int argc, char **argv)
 	}
 	//printf("oui\n");
 	ft_liber(&g);
-	while(1);
+	//system("leaks ft_ls");
 	return (0);
 }

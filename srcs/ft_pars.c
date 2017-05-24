@@ -44,12 +44,12 @@ int edit(t_glob *g, int argc, char **argv)
 			i++;
 		}
 	}
-	printf("R:%d\nr:%d\na:%d\nl:%d\nt:%d\n", g->flag_gr, g->flag_r, g->flag_a, g->flag_l, g->flag_t);
+/*	printf("R:%d\nr:%d\na:%d\nl:%d\nt:%d\n", g->flag_gr, g->flag_r, g->flag_a, g->flag_l, g->flag_t);
 	i = 0;
 	while (i < g->leng_path)
 	{
 		printf("%d = %s\n", i, g->path[i]);
 		i++;
-	}
+	}*/
 	return (0);
 }

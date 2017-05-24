@@ -181,7 +181,7 @@ int ft_time(char *str, char *str2, char *str3)
 		return (0);
 	}
 
-
+	//printf("%s > %s\n", a + 11, b + 11);
 	if(ft_atoi(a + 11) > ft_atoi(b + 11))
 	{
 		free(a);

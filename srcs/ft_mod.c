@@ -31,10 +31,23 @@ void ft_mod(struct stat s, int *mode)
         printf ("w");
     else
     	printf("-");
+
+
+
+    if(s.st_mode & S_ISUID)
+    {
+        if(s.st_mode & S_IXUSR)
+            printf("s");
+        else
+            printf("S");
+    }
     if (s.st_mode & S_IXUSR)
         printf ("x");
     else
     	printf("-");
+
+
+
 
     if (s.st_mode & S_IRGRP)
         printf ("r");
@@ -44,10 +57,20 @@ void ft_mod(struct stat s, int *mode)
         printf ("w");
     else
     	printf("-");
-    if (s.st_mode & S_IXGRP)
+    if(s.st_mode & S_ISGID)
+    {
+        if(s.st_mode & S_IXGRP)
+            printf("s");
+        else
+            printf("S");
+    }
+    else if (s.st_mode & S_IXGRP)
         printf ("x");
     else
     	printf("-");
+
+
+
 
     if (s.st_mode & S_IROTH)
         printf ("r");
@@ -57,7 +80,14 @@ void ft_mod(struct stat s, int *mode)
         printf ("w");
     else
     	printf("-");
-    if (s.st_mode & S_IXOTH)
+    if(s.st_mode & S_ISVTX)
+    {
+        if(s.st_mode & S_IXOTH)
+            printf("t");
+        else
+            printf("T");
+    }
+    else if (s.st_mode & S_IXOTH)
         printf ("x");
     else
     	printf("-");

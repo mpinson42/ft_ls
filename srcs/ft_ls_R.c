@@ -3,14 +3,14 @@
 int ft_test(char *str)
 {
 	int i;
-	struct dirent* fichierLu[200000];
+	struct dirent* fichierLu[2];
 	DIR *rep = NULL;
 
 	i = 0;
 
 	if(str == NULL || !(rep = opendir(str)))
 		return(0);
-	while ((fichierLu[i] = readdir(rep)) != NULL)
+	while ((fichierLu[0] = readdir(rep)) != NULL)
     	i++;
     if (closedir(rep) == -1)
         return(0);
@@ -92,18 +92,24 @@ int ft_R(char *str, t_glob *g)
 	while (fichierLu[i] != NULL)
 	{
 		if((fichierLu[i]->d_name[0] != '.' || g->flag_a == 1) && g->flag_l == 0)
+		{
+    		ft_color(str, fichierLu[i]->d_name);
     		printf("%s\n", fichierLu[i]->d_name);
+    		write(1, "\e[0;m", 6);
+		}
     	else if ((fichierLu[i]->d_name[0] != '.' || g->flag_a == 1) && g->flag_l == 1 && str != NULL && ft_isprint(fichierLu[i]->d_name[0]) && is_open(str, fichierLu[i]->d_name) != -1)
     	{
     		ft_affiche(str, fichierLu[i]->d_name, g);
+    		ft_color(str, fichierLu[i]->d_name);
     		printf("%s\n", fichierLu[i]->d_name);
+    		write(1, "\e[0;m", 6);
     	}
     	i++;
 	}
 	
 	while(fichierLu[j] != NULL && j < i && j < 50000)
 	{
-		if(fichierLu[j] != NULL && (fichierLu[j]->d_type == 4  || fichierLu[j]->d_type == 10) && fichierLu[j]->d_type != 8 && ft_strcmp(fichierLu[j]->d_name, ".") != 0 && ft_strcmp(fichierLu[j]->d_name, "..") != 0)
+		if(fichierLu[j] != NULL && (fichierLu[j]->d_type == 4  || fichierLu[j]->d_type == 10) && fichierLu[j]->d_type != 8 && ft_strcmp(fichierLu[j]->d_name, ".") != 0 && ft_strcmp(fichierLu[j]->d_name, "..") != 0 && (fichierLu[j]->d_name[0] != '.' || g->flag_a == 1))
 		{
 			if(str[0] == '/' && str[1] == 0)
 			{
