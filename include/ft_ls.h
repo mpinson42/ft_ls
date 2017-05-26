@@ -57,6 +57,7 @@ typedef struct	s_glob
 
 }				t_glob;
 
+int ft_count_month(char *str);
 void ft_color(char *str, char* str2);
 int is_open(char *str, char *str2);
 int ft_max_dev(char *str, char *str2);

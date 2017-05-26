@@ -1,71 +1,78 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_pars.c                                          :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: mpinson <marvin@42.fr>                     +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2017/05/26 14:46:12 by mpinson           #+#    #+#             */
+/*   Updated: 2017/05/26 15:05:33 by mpinson          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "ft_ls.h"
 
-int edit(t_glob *g, int argc, char **argv)
+int		ft_assigne(char **argv, int i, int x, t_glob *g)
 {
-	int i;
-	int j;
-	int x;
-
-	i = 1;
-	j = 0;
-	while(i < argc && argv[i][0] == '-')
+	if (argv[i][x] == 'R')
+		g->flag_gr = 1;
+	else if (argv[i][x] == 'r')
+		g->flag_r = 1;
+	else if (argv[i][x] == 'l')
+		g->flag_l = 1;
+	else if (argv[i][x] == 'a')
+		g->flag_a = 1;
+	else if (argv[i][x] == 't')
+		g->flag_t = 1;
+	else if (argv[i][x] == 'f')
+		g->flag_f = 1;
+	else if (argv[i][x] == 'g')
+		g->flag_g = 1;
+	else if (argv[i][x] == 'd')
+		g->flag_d = 1;
+	else
 	{
-		x = 1;
-		while(argv[i][x])
-		{
-			if (argv[i][x] == 'R')
-				g->flag_gr = 1;
-			else if (argv[i][x] == 'r')
-				g->flag_r = 1;
-			else if (argv[i][x] == 'l')
-				g->flag_l = 1;
-			else if (argv[i][x] == 'a')
-				g->flag_a = 1;
-			else if (argv[i][x] == 't')
-				g->flag_t = 1;
-
-			else if (argv[i][x] == 'u')
-				g->flag_u = 1;
-			else if (argv[i][x] == 'f')
-				g->flag_f = 1;
-			else if (argv[i][x] == 'g')
-				g->flag_g = 1;
-			else if (argv[i][x] == 'd')
-				g->flag_d = 1;
-			else if (argv[i][x] == 't')
-				g->flag_t = 1;
-			else
-			{
-				printf("usage: ./ft_ls [-adfglrRtu] [file ...]\n");
-				exit(0);
-			}
-			x++;
-		}
-		i++;
-	}
-	if(!(g->path = (char **)malloc(sizeof(char *) * (argc - i))))
+		ft_putstr("usage: ./ft_ls [-adfglrRt] [file ...]\n");
 		return (-1);
+	}
+	return (0);
+}
+
+void	pars(int i, t_glob *g, int argc, char **argv)
+{
+	int j;
+
+	j = 0;
 	g->leng_path = argc - i;
-	if(i == argc)
+	if (i == argc)
 	{
 		g->leng_path = 1;
 		g->path[0] = ".";
 	}
 	else
 	{
-		while(i < argc)
+		while (i < argc)
+			g->path[j++] = argv[i++];
+	}
+}
+
+int		edit(t_glob *g, int argc, char **argv)
+{
+	int i;
+	int x;
+
+	i = 0;
+	while (++i < argc && argv[i][0] == '-')
+	{
+		x = 0;
+		while (argv[i][++x])
 		{
-			g->path[j] = argv[i];
-			j++;
-			i++;
+			if (ft_assigne(argv, i, x, g) == -1)
+				return (-1);
 		}
 	}
-/*	printf("R:%d\nr:%d\na:%d\nl:%d\nt:%d\n", g->flag_gr, g->flag_r, g->flag_a, g->flag_l, g->flag_t);
-	i = 0;
-	while (i < g->leng_path)
-	{
-		printf("%d = %s\n", i, g->path[i]);
-		i++;
-	}*/
+	if (!(g->path = (char **)malloc(sizeof(char *) * (argc - i))))
+		return (-1);
+	pars(i, g, argc, argv);
 	return (0);
 }

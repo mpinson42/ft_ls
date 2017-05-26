@@ -1,96 +1,104 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_mod.c                                           :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: mpinson <marvin@42.fr>                     +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2017/05/26 14:46:05 by mpinson           #+#    #+#             */
+/*   Updated: 2017/05/26 14:58:58 by mpinson          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "ft_ls.h"
 
-void ft_mod(struct stat s, int *mode)
+void	ft_mode4(struct stat s, int *mode)
 {
-    if (S_ISREG (s.st_mode))
-        printf ("-");
-    if (S_ISLNK (s.st_mode))
-        printf ("l");
-	if (S_ISDIR (s.st_mode))
-    {
-        mode[0] = 1;
-        printf ("d");
-    }
-    if (S_ISFIFO (s.st_mode))
-        printf ("p");
-    if (S_ISBLK (s.st_mode))
-        printf ("b");
-    if (S_ISCHR (s.st_mode))
-        printf ("c");
+	if (S_ISFIFO(s.st_mode))
+		ft_putchar('p');
+	if (S_ISBLK(s.st_mode))
+		ft_putchar('b');
+	if (S_ISCHR(s.st_mode))
+		ft_putchar('c');
+	if (s.st_mode & S_IRUSR)
+		ft_putchar('r');
+	else
+		ft_putchar('-');
+	if (s.st_mode & S_IWUSR)
+		ft_putchar('w');
+	else
+		ft_putchar('-');
+	if (s.st_mode & S_ISUID)
+	{
+		if (s.st_mode & S_IXUSR)
+			ft_putchar('s');
+		else
+			ft_putchar('S');
+	}
+}
 
+void	ft_mode3(struct stat s, int *mode)
+{
+	if (s.st_mode & S_IXUSR)
+		ft_putchar('x');
+	else
+		ft_putchar('-');
+	if (s.st_mode & S_IRGRP)
+		ft_putchar('r');
+	else
+		ft_putchar('-');
+	if (s.st_mode & S_IWGRP)
+		ft_putchar('w');
+	else
+		ft_putchar('-');
+	if (s.st_mode & S_ISGID)
+	{
+		if (s.st_mode & S_IXGRP)
+			ft_putchar('s');
+		else
+			ft_putchar('S');
+	}
+	else if (s.st_mode & S_IXGRP)
+		ft_putchar('x');
+	else
+		ft_putchar('-');
+}
 
+void	ft_mode2(struct stat s, int *mode)
+{
+	if (s.st_mode & S_IROTH)
+		ft_putchar('r');
+	else
+		ft_putchar('-');
+	if (s.st_mode & S_IWOTH)
+		ft_putchar('w');
+	else
+		ft_putchar('-');
+	if (s.st_mode & S_ISVTX)
+	{
+		if (s.st_mode & S_IXOTH)
+			ft_putchar('t');
+		else
+			ft_putchar('T');
+	}
+	else if (s.st_mode & S_IXOTH)
+		ft_putchar('x');
+	else
+		ft_putchar('-');
+}
 
-
-
-
-    if (s.st_mode & S_IRUSR)
-        printf ("r");
-    else
-    	printf("-");
-    if (s.st_mode & S_IWUSR)
-        printf ("w");
-    else
-    	printf("-");
-
-
-
-    if(s.st_mode & S_ISUID)
-    {
-        if(s.st_mode & S_IXUSR)
-            printf("s");
-        else
-            printf("S");
-    }
-    if (s.st_mode & S_IXUSR)
-        printf ("x");
-    else
-    	printf("-");
-
-
-
-
-    if (s.st_mode & S_IRGRP)
-        printf ("r");
-    else
-    	printf("-");
-    if (s.st_mode & S_IWGRP)
-        printf ("w");
-    else
-    	printf("-");
-    if(s.st_mode & S_ISGID)
-    {
-        if(s.st_mode & S_IXGRP)
-            printf("s");
-        else
-            printf("S");
-    }
-    else if (s.st_mode & S_IXGRP)
-        printf ("x");
-    else
-    	printf("-");
-
-
-
-
-    if (s.st_mode & S_IROTH)
-        printf ("r");
-    else
-    	printf("-");
-    if (s.st_mode & S_IWOTH)
-        printf ("w");
-    else
-    	printf("-");
-    if(s.st_mode & S_ISVTX)
-    {
-        if(s.st_mode & S_IXOTH)
-            printf("t");
-        else
-            printf("T");
-    }
-    else if (s.st_mode & S_IXOTH)
-        printf ("x");
-    else
-    	printf("-");
-
-
+void	ft_mod(struct stat s, int *mode)
+{
+	if (S_ISREG(s.st_mode))
+		ft_putchar('-');
+	if (S_ISLNK(s.st_mode))
+		ft_putchar('l');
+	if (S_ISDIR(s.st_mode))
+	{
+		mode[0] = 1;
+		ft_putchar('d');
+	}
+	ft_mode4(s, mode);
+	ft_mode3(s, mode);
+	ft_mode2(s, mode);
 }
