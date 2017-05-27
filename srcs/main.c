@@ -32,7 +32,7 @@ void	ft_go(t_glob *g, int i)
 		else
 			closedir(rep);
 		if (g->flag_gr == 1)
-			ft_R(g->path[i], g);
+			ft_rr(g->path[i], g);
 		else if (g->flag_gr == 0 && g->flag_l == 0)
 			ft_ls(g, g->path[i]);
 		else if (g->flag_gr == 0 && g->flag_l == 1)

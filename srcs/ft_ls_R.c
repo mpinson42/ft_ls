@@ -6,141 +6,132 @@
 /*   By: mpinson <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/26 14:45:48 by mpinson           #+#    #+#             */
-/*   Updated: 2017/05/26 14:45:49 by mpinson          ###   ########.fr       */
+/*   Updated: 2017/05/26 20:22:52 by mpinson          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_ls.h"
 
-int ft_test(char *str)
+void	assigne_ft_rr(char *str,
+	struct dirent *(*fichierlu)[ft_test(str) + 1], t_glob *g, DIR **rep)
 {
 	int i;
-	struct dirent* fichierLu[2];
-	DIR *rep = NULL;
 
-	i = 0;
-	if (str == NULL || !(rep = opendir(str)))
-		return (0);
-	while ((fichierLu[0] = readdir(rep)) != NULL)
-    	i++;
-    closedir(rep);
-    return (i);
-}
-
-int ft_test2(char *str, t_glob *g)
-{
-	int i;
-	int rendu;
-	DIR *rep = NULL;
-	struct dirent* fichierLu[ft_test(str) + 1];
-
-	i = 0;
-	rendu = 0;
-	if (str == NULL || !(rep = opendir(str)))
-		return (0);
-	while ((fichierLu[i] = readdir(rep)) != NULL)
+	i = -1;
+	while ((fichierlu[0][++i] = readdir(rep[0])) != NULL)
 	{
-		if(fichierLu[i]->d_name[0] != '.' || g->flag_a == 1)
-			rendu++;
-    	i++;
+		if (ft_max_l(str, fichierlu[0][i]->d_name) > g->max_lien)
+			g->max_lien = ft_max_l(str, fichierlu[0][i]->d_name);
+		if (ft_max_size(str, fichierlu[0][i]->d_name) > g->max_size)
+			g->max_size = ft_max_size(str, fichierlu[0][i]->d_name);
+		if (ft_max_name(str, fichierlu[0][i]->d_name) > g->max_name)
+			g->max_name = ft_max_name(str, fichierlu[0][i]->d_name);
+		if (ft_max_name(str, fichierlu[0][i]->d_name) < g->min_name)
+			g->min_name = ft_max_name(str, fichierlu[0][i]->d_name);
+		if (ft_max_group(str, fichierlu[0][i]->d_name) > g->max_group)
+			g->max_group = ft_max_group(str, fichierlu[0][i]->d_name);
+		if (ft_max_dev(str, fichierlu[0][i]->d_name) > g->max_dev)
+			g->max_dev = ft_max_dev(str, fichierlu[0][i]->d_name);
+		if (ft_max_dev4(str, fichierlu[0][i]->d_name) > g->max_dev2)
+			g->max_dev2 = ft_max_dev4(str, fichierlu[0][i]->d_name);
 	}
-    closedir(rep);
-    return (rendu);
 }
 
-int ft_R(char *str, t_glob *g)
+int		print_ft_rr(t_glob *g, char *str,
+	struct dirent	*fichierlu[ft_test(str) + 1])
 {
-	DIR *rep = NULL;
-	struct dirent* fichierLu[ft_test(str) + 1];
 	int i;
-	int j;
-	char *test;
-	char *test2;
+
+	i = -1;
+	while (fichierlu[++i] != NULL && g->flag_d == 0)
+	{
+		if ((fichierlu[i]->d_name[0] != '.' ||
+					g->flag_a == 1) && g->flag_l == 0)
+		{
+			ft_color(str, fichierlu[i]->d_name);
+			ft_putendl(fichierlu[i]->d_name);
+			write(1, "\e[0;m", 6);
+		}
+		else if ((fichierlu[i]->d_name[0] != '.' || g->flag_a == 1) &&
+				g->flag_l == 1 && str != NULL &&
+				ft_isprint(fichierlu[i]->d_name[0]) &&
+				is_open(str, fichierlu[i]->d_name) != -1)
+		{
+			ft_affiche(str, fichierlu[i]->d_name, g);
+			ft_color(str, fichierlu[i]->d_name);
+			ft_putendl(fichierlu[i]->d_name);
+			write(1, "\e[0;m", 6);
+		}
+	}
+	return (i);
+}
+
+int		testyolo(char *str)
+{
+	int i;
+
+	i = 0;
+	while (str[i])
+	{
+		if (str[i] == ' ')
+			return (1);
+		i++;
+	}
+	return (0);
+}
+
+void	recur_ft_rr(char *str,
+	struct dirent	*fichierlu[ft_test(str) + 1], t_glob *g, int j)
+{
+	char *test[2];
+
+	if (fichierlu[j] != NULL && (fichierlu[j]->d_type == 4 ||
+				fichierlu[j]->d_type == 10) && fichierlu[j]->d_type != 8 &&
+			ft_strcmp(fichierlu[j]->d_name, ".") != 0 &&
+			ft_strcmp(fichierlu[j]->d_name, "..") != 0 &&
+			(fichierlu[j]->d_name[0] != '.' || g->flag_a == 1))
+	{
+		ft_putstr("\n\n");
+		if (str[0] == '/' && str[1] == 0)
+		{
+			test[0] = ft_strjoin(str, fichierlu[j]->d_name);
+			ft_rr(test[0], g);
+			free(test[0]);
+		}
+		else
+		{
+			test[0] = ft_strjoin(str, "/");
+			test[1] = ft_strjoin(test[0], fichierlu[j]->d_name);
+			free(test[0]);
+			if (testyolo(str) == 0)
+				ft_rr(test[1], g);
+			free(test[1]);
+		}
+	}
+}
+
+int		ft_rr(char *str, t_glob *g)
+{
+	DIR				*rep;
+	struct dirent	*fichierlu[ft_test(str) + 1];
+	int				j;
+	char			*test[2];
 
 	j = 0;
-	i = 0;
-	if (g->flag_d == 1)
-    	ft_affiche("./", str,g);
-    ft_putendl(str);
-	if (str == NULL || !(rep = opendir(str)))
-	{
-		if (ft_strcmp(strerror(errno), "Not a directory") != 0)
-		{
-			perror("");
-			ft_putstr("\n\n");
-		}
+	rep = NULL;
+	if (err_ft_rr(str, g, &rep) == 0)
 		return (0);
-	}
-	if (g->flag_l == 1 && ft_strcmp(str, "/dev") != 0 && g->flag_d == 0)
-	{
-		ft_putstr("total : ");
-		ft_putnbr(ft_test2(str, g));
-		ft_putchar('\n');;
-	}
-	if (g->flag_l == 1 && ft_strcmp(str, "/dev") == 0 && g->flag_d == 0)
-		ft_putstr("total : 0\n");
-	while ((fichierLu[i] = readdir(rep)) != NULL)
-	{
-		if (ft_max_l(str, fichierLu[i]->d_name) > g->max_lien)
-			g->max_lien = ft_max_l(str, fichierLu[i]->d_name);
-		if (ft_max_size(str, fichierLu[i]->d_name) > g->max_size)
-			g->max_size = ft_max_size(str, fichierLu[i]->d_name);
-		if (ft_max_name(str,fichierLu[i]->d_name) > g->max_name)
-			g->max_name = ft_max_name(str, fichierLu[i]->d_name);
-		if (ft_max_name(str, fichierLu[i]->d_name) < g->min_name)
-			g->min_name = ft_max_name(str, fichierLu[i]->d_name);
-		if (ft_max_group(str, fichierLu[i]->d_name) > g->max_group)
-			g->max_group = ft_max_group(str, fichierLu[i]->d_name);
-		if (ft_max_dev(str, fichierLu[i]->d_name) > g->max_dev)
-			g->max_dev = ft_max_dev(str, fichierLu[i]->d_name);
-		if (ft_max_dev4(str, fichierLu[i]->d_name) > g->max_dev2)
-			g->max_dev2 = ft_max_dev4(str, fichierLu[i]->d_name);
-    	i++;
-	}
+	assigne_ft_rr(str, &fichierlu, g, &rep);
 	if (g->flag_f == 0)
-     ft_trie(str, &fichierLu);
-    if (g->flag_t == 1 || g->flag_g == 1)
-   		ft_t(str, &fichierLu, g);
-    if (g->flag_r == 1)
-   		ft_r(str, &fichierLu, i -1);
-    i = -1;
-	while (fichierLu[++i] != NULL && g->flag_d == 0)
+		ft_trie(str, &fichierlu);
+	if (g->flag_t == 1 || g->flag_g == 1)
+		ft_t(str, &fichierlu, g);
+	if (g->flag_r == 1)
+		ft_r(str, &fichierlu, 0);
+	print_ft_rr(g, str, fichierlu);
+	while (fichierlu[j] != NULL && g->flag_d == 0)
 	{
-		if ((fichierLu[i]->d_name[0] != '.' || g->flag_a == 1) && g->flag_l == 0)
-		{
-    		ft_color(str, fichierLu[i]->d_name);
-    		ft_putendl(fichierLu[i]->d_name);
-    		write(1, "\e[0;m", 6);
-		}
-    	else if ((fichierLu[i]->d_name[0] != '.' || g->flag_a == 1) && g->flag_l == 1 && str != NULL && ft_isprint(fichierLu[i]->d_name[0]) && is_open(str, fichierLu[i]->d_name) != -1)
-    	{
-    		ft_affiche(str, fichierLu[i]->d_name, g);
-    		ft_color(str, fichierLu[i]->d_name);
-    		ft_putendl(fichierLu[i]->d_name);
-    		write(1, "\e[0;m", 6);
-    	}
-	}
-	while (fichierLu[j] != NULL && j < i && j < 50000 && g->flag_d == 0)
-	{
-		if (fichierLu[j] != NULL && (fichierLu[j]->d_type == 4  || fichierLu[j]->d_type == 10) && fichierLu[j]->d_type != 8 && ft_strcmp(fichierLu[j]->d_name, ".") != 0 && ft_strcmp(fichierLu[j]->d_name, "..") != 0 && (fichierLu[j]->d_name[0] != '.' || g->flag_a == 1))
-		{
-			if (str[0] == '/' && str[1] == 0)
-			{
-				ft_putstr("\n\n");
-				test = ft_strjoin(str, fichierLu[j]->d_name);
-    			ft_R(test, g);
-    			free(test);
-			}
-    		else
-    		{
-    			ft_putstr("\n\n");
-    			test = ft_strjoin(str, "/");
-    			test2 = ft_strjoin(test, fichierLu[j]->d_name);
-    			free(test);
-    			ft_R(test2, g);
-    			free(test2);
-    		}
-		}
+		recur_ft_rr(str, fichierlu, g, j);
 		j++;
 	}
 	closedir(rep);

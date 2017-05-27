@@ -14,12 +14,6 @@
 
 void	ft_mode4(struct stat s, int *mode)
 {
-	if (S_ISFIFO(s.st_mode))
-		ft_putchar('p');
-	if (S_ISBLK(s.st_mode))
-		ft_putchar('b');
-	if (S_ISCHR(s.st_mode))
-		ft_putchar('c');
 	if (s.st_mode & S_IRUSR)
 		ft_putchar('r');
 	else
@@ -91,13 +85,23 @@ void	ft_mod(struct stat s, int *mode)
 {
 	if (S_ISREG(s.st_mode))
 		ft_putchar('-');
-	if (S_ISLNK(s.st_mode))
+	else if (S_ISLNK(s.st_mode))
 		ft_putchar('l');
-	if (S_ISDIR(s.st_mode))
+	else if (S_ISDIR(s.st_mode))
 	{
 		mode[0] = 1;
 		ft_putchar('d');
 	}
+	else if (S_ISFIFO(s.st_mode))
+		ft_putchar('p');
+	else if (S_ISBLK(s.st_mode))
+		ft_putchar('b');
+	else if (S_ISCHR(s.st_mode))
+		ft_putchar('c');
+	else if (s.st_mode & S_IXUSR)
+		ft_putchar('s');
+	else
+		ft_putchar('-');
 	ft_mode4(s, mode);
 	ft_mode3(s, mode);
 	ft_mode2(s, mode);
