@@ -36,7 +36,6 @@ int		return_f2(int i, char **str2, char **str1)
 int		ft_max_group(char *str, char *str2)
 {
 	struct stat		s;
-	int				i;
 	struct group	*gid;
 	char			*test;
 
@@ -86,7 +85,6 @@ int		ft_6month(char *str, int anner, struct stat s)
 {
 	int				time1;
 	int				time2;
-	struct time_t	*t;
 
 	time1 = time(&s.st_mtime);
 	time2 = ft_absolut(time1 - (ft_atoi(str + 14) + ft_atoi(str + 11)

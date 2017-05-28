@@ -132,8 +132,6 @@ int		ft_rr(char *str, t_glob *g)
 {
 	DIR				*rep;
 	struct dirent	*fichierlu[ft_test(str) + 1];
-	int				j;
-	char			*test[2];
 
 	rep = NULL;
 	if (err_ft_rr(str, g, &rep) == 0)

@@ -31,8 +31,6 @@ int		ft_test(char *str)
 int		ft_poid(char *str, char *str2)
 {
 	struct stat		s;
-	int				i;
-	struct group	*gid;
 	char			*test;
 
 	if (!(test = ft_strjoin(str, "/")))

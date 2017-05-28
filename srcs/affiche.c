@@ -15,7 +15,7 @@
 void	ft_affiche1(t_aff a, t_glob *g)
 {
 	a.yolo = -1;
-	while (ft_strlen(a.gid->gr_name) < g->max_group - ++a.yolo)
+	while ((int)ft_strlen(a.gid->gr_name) < g->max_group - ++a.yolo)
 		ft_putchar(' ');
 	if (ft_strcmp(a.test2, "/dev") != 0)
 	{
@@ -46,8 +46,8 @@ void	ft_affiche3(t_aff a, t_glob *g)
 	ft_putstr(a.uid->pw_name);
 	ft_putchar(' ');
 	a.yolo = -1;
-	while (ft_strlen(a.uid->pw_name) < g->max_name &&
-			ft_strlen(a.uid->pw_name) < g->max_name - ++a.yolo)
+	while ((int)ft_strlen(a.uid->pw_name) < g->max_name &&
+			(int)ft_strlen(a.uid->pw_name) < g->max_name - ++a.yolo)
 		ft_putchar(' ');
 	ft_putstr(a.gid->gr_name);
 	ft_putchar(' ');

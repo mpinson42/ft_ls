@@ -16,7 +16,6 @@ void	*ft_trie(char *str, struct dirent *(*fichierlu)[ft_test(str) + 1])
 {
 	int i;
 	int bol;
-	int y;
 
 	bol = 0;
 	while (bol == 0)
@@ -128,7 +127,6 @@ void	ft_ls_l(char *str, t_glob *g)
 {
 	DIR				*rep;
 	struct dirent	*fichierlu[ft_test(str) + 1];
-	struct dirent	*c[3];
 
 	rep = NULL;
 	if (str == NULL || !(rep = opendir(str)))

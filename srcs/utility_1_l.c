@@ -36,7 +36,6 @@ int		ft_max_li(int nbr)
 int		is_open(char *str, char *str2)
 {
 	struct stat	s;
-	int			i;
 	char		*test;
 
 	if (!(test = ft_strjoin(str, "/")))

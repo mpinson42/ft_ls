@@ -15,7 +15,6 @@
 int		ft_max_name(char *str, char *str2)
 {
 	struct stat		s;
-	int				i;
 	struct passwd	*uid;
 	char			*test;
 
@@ -36,7 +35,6 @@ int		ft_max_dev(char *str, char *str2)
 {
 	struct stat		s;
 	int				i;
-	struct passwd	*uid;
 	char			*test;
 
 	if (!(test = ft_strjoin(str, "/")))
@@ -55,7 +53,6 @@ int		ft_max_dev4(char *str, char *str2)
 {
 	struct stat		s;
 	int				i;
-	struct passwd	*uid;
 	char			*test;
 
 	if (!(test = ft_strjoin(str, "/")))
@@ -73,8 +70,6 @@ int		ft_max_dev4(char *str, char *str2)
 int		ft_max_dev2(struct stat s)
 {
 	int				i;
-	struct passwd	*uid;
-	char			*test;
 
 	i = ft_max_li(major(s.st_rdev)) + 2;
 	return (i);
@@ -83,8 +78,6 @@ int		ft_max_dev2(struct stat s)
 int		ft_max_dev3(struct stat s)
 {
 	int				i;
-	struct passwd	*uid;
-	char			*test;
 
 	i = ft_max_li(minor(s.st_rdev));
 	return (i);

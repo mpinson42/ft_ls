@@ -15,7 +15,6 @@
 void	ft_swap(struct dirent **a, struct dirent **b)
 {
 	struct dirent *c;
-	struct dirent *d;
 
 	c = *a;
 	*a = *b;

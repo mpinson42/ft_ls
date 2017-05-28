@@ -12,7 +12,7 @@
 
 #include "ft_ls.h"
 
-void	ft_mode4(struct stat s, int *mode)
+void	ft_mode4(struct stat s)
 {
 	if (s.st_mode & S_IRUSR)
 		ft_putchar('r');
@@ -35,7 +35,7 @@ void	ft_mode4(struct stat s, int *mode)
 		ft_putchar('-');
 }
 
-void	ft_mode3(struct stat s, int *mode)
+void	ft_mode3(struct stat s)
 {
 	if (s.st_mode & S_IRGRP)
 		ft_putchar('r');
@@ -58,7 +58,7 @@ void	ft_mode3(struct stat s, int *mode)
 		ft_putchar('-');
 }
 
-void	ft_mode2(struct stat s, int *mode)
+void	ft_mode2(struct stat s)
 {
 	if (s.st_mode & S_IROTH)
 		ft_putchar('r');
@@ -102,7 +102,7 @@ void	ft_mod(struct stat s, int *mode)
 		ft_putchar('s');
 	else
 		ft_putchar('-');
-	ft_mode4(s, mode);
-	ft_mode3(s, mode);
-	ft_mode2(s, mode);
+	ft_mode4(s);
+	ft_mode3(s);
+	ft_mode2(s);
 }

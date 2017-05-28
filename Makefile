@@ -15,7 +15,7 @@ $(NAME): $(SRC)
 	@echo "mpinson" > auteur
 	@make -C ./libft all
 	@cp ./libft/libft.a ./lib
-	gcc -I ./include/ lib/libft.a -o $(NAME) $(SRC)
+	gcc $(FLAGS) -I ./include/ lib/libft.a -o $(NAME) $(SRC)
 
 
 clean:

@@ -100,7 +100,6 @@ void	*ft_t(char *str,
 {
 	int i;
 	int bol;
-	int y;
 
 	bol = 0;
 	while (bol == 0)
