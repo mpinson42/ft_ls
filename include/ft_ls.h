@@ -53,6 +53,7 @@ typedef struct	s_glob
 	int			ret1;
 	int			ret2;
 	int			j;
+	int			count;
 
 }				t_glob;
 
@@ -70,6 +71,7 @@ typedef struct	s_aff
 	int				yolo;
 }				t_aff;
 
+int				testyolo(char *str);
 int				return_f2(int i, char **str2, char **str1);
 int				ft_mois(char *str1, char *str2);
 int				err_ft_rr(char *str, t_glob *g, DIR **rep);
@@ -104,5 +106,9 @@ void			ft_swap(struct dirent **a, struct dirent **b);
 int				ft_time(char *str, char *str2, char *str3, t_glob *g);
 void			*ft_t(char *str,
 	struct dirent *(*fichierlu)[ft_test(str) + 1], t_glob *g);
+void			assigne_ft_rr(char *str,
+	struct dirent *(*fichierlu)[ft_test(str) + 1], t_glob *g, DIR **rep);
+int				ft_non(char *str,
+	struct dirent	*fichierlu[ft_test(str) + 1], int j);
 
 #endif

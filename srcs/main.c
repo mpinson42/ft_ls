@@ -12,6 +12,56 @@
 
 #include "ft_ls.h"
 
+void	ft_swap(struct dirent **a, struct dirent **b)
+{
+	struct dirent *c;
+	struct dirent *d;
+
+	c = *a;
+	*a = *b;
+	*b = c;
+}
+
+int		testyolo(char *str)
+{
+	int i;
+
+	i = 0;
+	while (str[i])
+	{
+		if (str[i] == ' ')
+			return (1);
+		i++;
+	}
+	return (0);
+}
+
+void	assigne_ft_rr(char *str,
+	struct dirent *(*fichierlu)[ft_test(str) + 1], t_glob *g, DIR **rep)
+{
+	int i;
+
+	i = -1;
+	while ((fichierlu[0][++i] = readdir(rep[0])) != NULL)
+	{
+		if (ft_max_l(str, fichierlu[0][i]->d_name) > g->max_lien)
+			g->max_lien = ft_max_l(str, fichierlu[0][i]->d_name);
+		if (ft_max_size(str, fichierlu[0][i]->d_name) > g->max_size)
+			g->max_size = ft_max_size(str, fichierlu[0][i]->d_name);
+		if (ft_max_name(str, fichierlu[0][i]->d_name) > g->max_name)
+			g->max_name = ft_max_name(str, fichierlu[0][i]->d_name);
+		if (ft_max_name(str, fichierlu[0][i]->d_name) < g->min_name)
+			g->min_name = ft_max_name(str, fichierlu[0][i]->d_name);
+		if (ft_max_group(str, fichierlu[0][i]->d_name) > g->max_group)
+			g->max_group = ft_max_group(str, fichierlu[0][i]->d_name);
+		if (ft_max_dev(str, fichierlu[0][i]->d_name) > g->max_dev)
+			g->max_dev = ft_max_dev(str, fichierlu[0][i]->d_name);
+		if (ft_max_dev4(str, fichierlu[0][i]->d_name) > g->max_dev2)
+			g->max_dev2 = ft_max_dev4(str, fichierlu[0][i]->d_name);
+	}
+	g->count = i;
+}
+
 void	ft_go(t_glob *g, int i)
 {
 	DIR		*rep;
@@ -51,6 +101,5 @@ int		main(int argc, char **argv)
 		return (0);
 	ft_go(&g, -1);
 	free(g.path);
-	system("leaks ft_ls");
 	return (0);
 }

@@ -29,14 +29,14 @@ void	ft_mode4(struct stat s, int *mode)
 		else
 			ft_putchar('S');
 	}
+	else if (s.st_mode & S_IXUSR)
+		ft_putchar('x');
+	else
+		ft_putchar('-');
 }
 
 void	ft_mode3(struct stat s, int *mode)
 {
-	if (s.st_mode & S_IXUSR)
-		ft_putchar('x');
-	else
-		ft_putchar('-');
 	if (s.st_mode & S_IRGRP)
 		ft_putchar('r');
 	else

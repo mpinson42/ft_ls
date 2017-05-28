@@ -15,7 +15,7 @@
 void	ft_affiche1(t_aff a, t_glob *g)
 {
 	a.yolo = -1;
-	while (strlen(a.gid->gr_name) < g->max_group - ++a.yolo)
+	while (ft_strlen(a.gid->gr_name) < g->max_group - ++a.yolo)
 		ft_putchar(' ');
 	if (ft_strcmp(a.test2, "/dev") != 0)
 	{
@@ -41,8 +41,6 @@ void	ft_affiche1(t_aff a, t_glob *g)
 
 void	ft_affiche3(t_aff a, t_glob *g)
 {
-	while (ft_absolut(g->max_lien - ft_max_li(a.s.st_nlink)) - ++a.yolo > 0)
-		ft_putchar(' ');
 	ft_putnbr(a.s.st_nlink);
 	ft_putchar(' ');
 	ft_putstr(a.uid->pw_name);
@@ -61,8 +59,9 @@ void	ft_affiche3(t_aff a, t_glob *g)
 	}
 	else
 	{
-		a.str3[strlen(a.str3) - 5] = 0;
+		a.str3[ft_strlen(a.str3) - 5] = 0;
 		ft_putstr(a.str3);
+		ft_putchar(' ');
 		ft_putnbr(a.mode);
 		ft_putchar(' ');
 	}
@@ -72,11 +71,11 @@ void	ft_affiche4(t_aff a, t_glob *g, char *str)
 {
 	ft_mod(a.s, &a.mode);
 	if (listxattr(str, NULL, 0, XATTR_NOFOLLOW) > 0)
-		ft_putchar('@');
+		ft_putstr("@");
 	else if ((a.a = acl_get_file(str, ACL_TYPE_EXTENDED)))
-		ft_putchar('+');
+		ft_putstr("+");
 	else
-		ft_putchar(' ');
+		ft_putstr(" ");
 	acl_free(a.a);
 	if (a.mode == 1)
 		a.str3 = ctime(&a.s.st_mtime);
@@ -87,8 +86,10 @@ void	ft_affiche4(t_aff a, t_glob *g, char *str)
 	a.str3 = a.str3 + 3;
 	a.mode = ft_atoi(a.str3 + 17);
 	a.time1 = ft_6month(a.str3, a.mode, a.s);
-	a.str3[strlen(a.str3) - 9] = 0;
+	a.str3[ft_strlen(a.str3) - 9] = 0;
 	a.yolo = -1;
+	while (ft_absolut(g->max_lien - ft_max_li(a.s.st_nlink)) - ++a.yolo > 0)
+		ft_putchar(' ');
 	ft_affiche3(a, g);
 }
 

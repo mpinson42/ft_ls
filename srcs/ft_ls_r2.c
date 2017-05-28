@@ -28,6 +28,24 @@ int		ft_test(char *str)
 	return (i);
 }
 
+int		ft_poid(char *str, char *str2)
+{
+	struct stat		s;
+	int				i;
+	struct group	*gid;
+	char			*test;
+
+	if (!(test = ft_strjoin(str, "/")))
+		return (-1);
+	if (!(str = ft_strjoin(test, str2)))
+		return (ft_return_f1(-1, &test));
+	free(test);
+	if (lstat(str, &s) == -1)
+		return (ft_return_f1(-1, &str));
+	free(str);
+	return (s.st_blocks);
+}
+
 int		ft_test2(char *str, t_glob *g)
 {
 	int				i;
@@ -43,7 +61,7 @@ int		ft_test2(char *str, t_glob *g)
 	while ((fichierlu[i] = readdir(rep)) != NULL)
 	{
 		if (fichierlu[i]->d_name[0] != '.' || g->flag_a == 1)
-			rendu++;
+			rendu += ft_poid(str, fichierlu[i]->d_name);
 		i++;
 	}
 	closedir(rep);

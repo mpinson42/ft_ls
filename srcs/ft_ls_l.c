@@ -12,15 +12,50 @@
 
 #include "ft_ls.h"
 
-void	ft_swap(struct dirent **a, struct dirent **b)
+void	ft_link(char *str, char *str2)
 {
-	struct dirent *c;
-	struct dirent *d;
+	t_aff	a;
+	char	dest[100];
 
-	c = *a;
-	d = *b;
-	*a = d;
-	*b = c;
+	a.test2 = str;
+	ft_putstr(str2);
+	ft_putstr(" -> ");
+	ft_bzero(dest, 100);
+	if (!(a.test = ft_strjoin(str, "/")))
+		return ;
+	if (!(str = ft_strjoin(a.test, str2)))
+	{
+		free(a.test);
+		return ;
+	}
+	free(a.test);
+	readlink(str, dest, 100);
+	ft_putendl(dest);
+	free(str);
+}
+
+int		is_link(char *str, char *str2)
+{
+	t_aff a;
+
+	a.test2 = str;
+	if (!(a.test = ft_strjoin(str, "/")))
+		return (-1);
+	if (!(str = ft_strjoin(a.test, str2)))
+	{
+		free(a.test);
+		return (-1);
+	}
+	free(a.test);
+	if (lstat(str, &a.s) == -1)
+	{
+		free(str);
+		return (-1);
+	}
+	free(str);
+	if (S_ISLNK(a.s.st_mode))
+		return (1);
+	return (0);
 }
 
 void	*ft_trie(char *str, struct dirent *(*fichierlu)[ft_test(str) + 1])
@@ -36,16 +71,11 @@ void	*ft_trie(char *str, struct dirent *(*fichierlu)[ft_test(str) + 1])
 		i = -1;
 		while (fichierlu[0][++i + 1] != NULL)
 		{
-			y = -1;
-			while (fichierlu[0][i]->d_name[y + 1] != 0
-				&& fichierlu[0][i + 1]->d_name[y + 1] != 0)
+			if (ft_strcmp(fichierlu[0][i]->d_name,
+				fichierlu[0][i + 1]->d_name) > 0)
 			{
-				if (fichierlu[0][i]->d_name[0] > fichierlu[0][i + 1]->d_name[0])
-				{
-					ft_swap(&fichierlu[0][i], &fichierlu[0][i + 1]);
-					bol = 0;
-				}
-				y++;
+				ft_swap(&fichierlu[0][i], &fichierlu[0][i + 1]);
+				bol = 0;
 			}
 		}
 	}
@@ -90,19 +120,50 @@ void	go_print(char *str,
 	i = -1;
 	if (g->flag_d == 1)
 	{
-		ft_affiche("./", fichierlu[i]->d_name, g);
-		ft_putendl(fichierlu[i]->d_name);
+		ft_affiche("./", fichierlu[0]->d_name, g);
+		ft_putendl(fichierlu[0]->d_name);
 	}
 	while (fichierlu[++i] != NULL && g->flag_d == 0)
 	{
-		if (fichierlu[i]->d_name[0] != '.' || g->flag_a == 1)
+		if ((fichierlu[i]->d_name[0] != '.' || g->flag_a == 1)
+			&& ft_non(str, fichierlu, i) == 0)
 		{
 			if (ft_isprint(fichierlu[i]->d_name[0])
 				&& is_open(str, fichierlu[i]->d_name) != -1)
 			{
 				ft_affiche(str, fichierlu[i]->d_name, g);
 				ft_color(str, fichierlu[i]->d_name);
-				ft_putendl(fichierlu[i]->d_name);
+				is_link(str, fichierlu[i]->d_name) == 0 ?
+				ft_putendl(fichierlu[i]->d_name) :
+				ft_link(str, fichierlu[i]->d_name);
+				write(1, "\e[0;m", 6);
+			}
+		}
+	}
+}
+
+void	go_print2(char *str,
+	struct dirent *fichierlu[ft_test(str) + 1], t_glob *g, int i)
+{
+	if (g->flag_d == 1)
+	{
+		ft_affiche("./", fichierlu[i]->d_name, g);
+		ft_putendl(fichierlu[i]->d_name);
+	}
+	while (i >= 0 && fichierlu[--i] != NULL && g->flag_d == 0)
+	{
+		if ((fichierlu[i]->d_name[0] != '.' || g->flag_a == 1) &&
+			ft_non(str, fichierlu, i) == 0)
+		{
+			if (ft_isprint(fichierlu[i]->d_name[0])
+				&& is_open(str, fichierlu[i]->d_name) != -1)
+			{
+				ft_affiche(str, fichierlu[i]->d_name, g);
+				ft_color(str, fichierlu[i]->d_name);
+				if (is_link(str, fichierlu[i]->d_name) == 0)
+					ft_putendl(fichierlu[i]->d_name);
+				else
+					ft_link(str, fichierlu[i]->d_name);
 				write(1, "\e[0;m", 6);
 			}
 		}
@@ -123,17 +184,14 @@ void	ft_ls_l(char *str, t_glob *g)
 		write(1, "\e[0;m", 6);
 		return ;
 	}
-	if (ft_strcmp(str, "/dev") != 0 && g->flag_d == 0)
+	if (g->flag_d == 0)
 	{
-		ft_putstr("total : ");
+		ft_putstr("total ");
 		ft_putnbr(ft_test2(str, g));
 		ft_putchar('\n');
 	}
-	if (ft_strcmp(str, "/dev") == 0 && g->flag_d == 0)
-		ft_putstr("total : 0\n");
 	ft_assigne_l(rep, str, &fichierlu, g);
-	if (g->flag_r == 1)
-		ft_r(str, &fichierlu, 0);
-	go_print(str, fichierlu, g);
+	g->flag_r == 1 ? go_print2(str, fichierlu, g,
+		ft_test(str)) : go_print(str, fichierlu, g);
 	closedir(rep);
 }

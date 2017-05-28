@@ -51,7 +51,8 @@ void	ft_loop_1(t_glob *g, char *str,
 	{
 		if ((fichierlu[i]->d_name[0] != '.' || g->flag_a == 1) &&
 			ft_isprint(fichierlu[i]->d_name[0]) &&
-			is_open(str, fichierlu[i]->d_name) != -1)
+			is_open(str, fichierlu[i]->d_name) != -1 &&
+			ft_non(str, fichierlu, i) == 0)
 		{
 			ft_color(str, fichierlu[i]->d_name);
 			ft_putendl(fichierlu[i]->d_name);
@@ -68,7 +69,6 @@ void	ft_ls(t_glob *g, char *str)
 
 	i = 0;
 	rep = NULL;
-	ft_putendl(str);
 	if (str == NULL || !(rep = opendir(str)))
 		return ;
 	while ((fichierlu[i] = readdir(rep)) != NULL)
