@@ -12,6 +12,52 @@
 
 #include "ft_ls.h"
 
+void	ft_link(char *str, char *str2)
+{
+	t_aff	a;
+	char	dest[100];
+
+	a.test2 = str;
+	ft_putstr(str2);
+	ft_putstr(" -> ");
+	ft_bzero(dest, 100);
+	if (!(a.test = ft_strjoin(str, "/")))
+		return ;
+	if (!(str = ft_strjoin(a.test, str2)))
+	{
+		free(a.test);
+		return ;
+	}
+	free(a.test);
+	readlink(str, dest, 100);
+	ft_putendl(dest);
+	free(str);
+}
+
+int		is_link(char *str, char *str2)
+{
+	t_aff a;
+
+	a.test2 = str;
+	if (!(a.test = ft_strjoin(str, "/")))
+		return (-1);
+	if (!(str = ft_strjoin(a.test, str2)))
+	{
+		free(a.test);
+		return (-1);
+	}
+	free(a.test);
+	if (lstat(str, &a.s) == -1)
+	{
+		free(str);
+		return (-1);
+	}
+	free(str);
+	if (S_ISLNK(a.s.st_mode))
+		return (1);
+	return (0);
+}
+
 void	ft_color(char *str, char *str2)
 {
 	struct stat	s;

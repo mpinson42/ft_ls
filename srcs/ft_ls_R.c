@@ -12,13 +12,6 @@
 
 #include "ft_ls.h"
 
-int		ft_non(char *str, struct dirent	*fichierlu[ft_test(str) + 1], int j)
-{
-	if (ft_strcmp(fichierlu[j]->d_name, fichierlu[j - 1]->d_name) == 0)
-		return (1);
-	return (0);
-}
-
 int		print_ft_rr(t_glob *g, char *str,
 	struct dirent	*fichierlu[ft_test(str) + 1])
 {

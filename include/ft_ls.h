@@ -71,6 +71,8 @@ typedef struct	s_aff
 	int				yolo;
 }				t_aff;
 
+int				is_link(char *str, char *str2);
+void			ft_link(char *str, char *str2);
 int				testyolo(char *str);
 int				return_f2(int i, char **str2, char **str1);
 int				ft_mois(char *str1, char *str2);
@@ -100,6 +102,8 @@ void			ft_affiche(char *str, char *str2, t_glob *g);
 int				ft_test2(char *str, t_glob *g);
 void			*ft_trie(char *str,
 	struct dirent *(*fichierlu)[ft_test(str) + 1]);
+int				ft_non(char *str,
+	struct dirent	*fichierlu[ft_test(str) + 1], int j);
 void			*ft_r(char *str, struct
 	dirent *(*fichierlu)[ft_test(str) + 1], int max);
 void			ft_swap(struct dirent **a, struct dirent **b);
