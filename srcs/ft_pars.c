@@ -74,6 +74,8 @@ int		edit(t_glob *g, int argc, char **argv)
 		x = 0;
 		while (argv[i][++x])
 		{
+			if(ft_strncmp(argv[i], "--", 2) == 0)
+				break;
 			if (ft_assigne(argv, i, x, g) == -1)
 				return (-1);
 		}

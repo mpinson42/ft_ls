@@ -115,6 +115,7 @@ void	ft_ls(t_glob *g, char *str)
 
 	i = 0;
 	rep = NULL;
+	ft_putendl(str);
 	if (str == NULL || !(rep = opendir(str)))
 		return ;
 	while ((fichierlu[i] = readdir(rep)) != NULL)

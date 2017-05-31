@@ -51,8 +51,7 @@ int		print_ft_rr2(t_glob *g, char *str,
 	while (i >= 0 && fichierlu[--i] != NULL && g->flag_d == 0)
 	{
 		if ((fichierlu[i]->d_name[0] != '.' ||
-					g->flag_a == 1) && g->flag_l == 0
-			&&
+					g->flag_a == 1) && g->flag_l == 0 &&
 				ft_isprint(fichierlu[i]->d_name[0]) &&
 				is_open(str, fichierlu[i]->d_name) != -1)
 		{
@@ -137,6 +136,11 @@ int		ft_rr(char *str, t_glob *g)
 	struct dirent	*fichierlu[ft_test(str) + 1];
 
 	rep = NULL;
+	if (str == NULL || !(rep = opendir(str)))
+	{
+		ft_putendl(str);
+		return (-1);
+	}
 	if (err_ft_rr(str, g, &rep) == 0)
 		return (0);
 	assigne_ft_rr(str, &fichierlu, g, &rep);

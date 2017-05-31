@@ -105,8 +105,7 @@ void	go_print2(char *str,
 	}
 	while (i >= 0 && fichierlu[--i] != NULL && g->flag_d == 0)
 	{
-		if ((fichierlu[i]->d_name[0] != '.' || g->flag_a == 1) &&
-			ft_non(str, fichierlu, i) == 0)
+		if ((fichierlu[i]->d_name[0] != '.' || g->flag_a == 1))
 		{
 			if (ft_isprint(fichierlu[i]->d_name[0])
 				&& is_open(str, fichierlu[i]->d_name) != -1)
@@ -132,10 +131,12 @@ void	ft_ls_l(char *str, t_glob *g)
 	if (str == NULL || !(rep = opendir(str)))
 	{
 		ft_color(str, fichierlu[0]->d_name);
+		ft_affiche("./", str, g);
 		ft_putendl(str);
 		write(1, "\e[0;m", 6);
 		return ;
 	}
+	ft_putendl(str);
 	if (g->flag_d == 0)
 	{
 		ft_putstr("total ");
