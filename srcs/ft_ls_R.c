@@ -51,7 +51,10 @@ int		print_ft_rr2(t_glob *g, char *str,
 	while (i >= 0 && fichierlu[--i] != NULL && g->flag_d == 0)
 	{
 		if ((fichierlu[i]->d_name[0] != '.' ||
-					g->flag_a == 1) && g->flag_l == 0)
+					g->flag_a == 1) && g->flag_l == 0
+			&&
+				ft_isprint(fichierlu[i]->d_name[0]) &&
+				is_open(str, fichierlu[i]->d_name) != -1)
 		{
 			ft_color(str, fichierlu[i]->d_name);
 			ft_putendl(fichierlu[i]->d_name);
